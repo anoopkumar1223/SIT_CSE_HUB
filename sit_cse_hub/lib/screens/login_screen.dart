@@ -15,6 +15,16 @@ class _LoginScreenState extends State<LoginScreen> {
   String password;
   final _formKey = GlobalKey<FormState>();
 
+  Function emailValidator = (String value) {
+    if (value.isEmpty) return 'This field is required';
+    return null;
+  };
+
+  Function passwordValidator = (String value) {
+    if (value.isEmpty) return 'This field is required';
+    return null;
+  };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,10 +80,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: R.string.usn,
                       keyboardType: TextInputType.text,
                       controller: emailController,
-                      onChanged: (value) {
-                        setState(() {
-                          email = value;
-                        });
+                      validator: emailValidator,
+                      onSaved: (value) {
+                        email = value;
                       },
                       isObscure: false,
                       onFieldSubmitted: (a) =>
@@ -87,10 +96,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: R.string.maskedPassword,
                       keyboardType: TextInputType.text,
                       controller: passwordController,
-                      onChanged: (value) {
-                        setState(() {
-                          password = value;
-                        });
+                      validator: passwordValidator,
+                      onSaved: (value) {
+                        password = value;
                       },
                       isObscure: true,
                       onFieldSubmitted: (a) =>
@@ -128,6 +136,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          return;
+                        }
+                        _formKey.currentState.save();
                         print(email);
                         print(password);
                       },

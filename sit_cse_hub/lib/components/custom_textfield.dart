@@ -61,11 +61,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
             child: TextFormField(
               textInputAction: TextInputAction.next,
               onFieldSubmitted: widget.onFieldSubmitted,
-              onChanged: (widget.onChanged != null) ? widget.onChanged : () {},
+              onChanged:
+                  (widget.onChanged != null) ? widget.onChanged : (value) {},
               onSaved: (widget.onSaved != null) ? widget.onSaved : () {},
               validator: (widget.validator != null)
                   ? widget.validator
-                  : () {
+                  : (a) {
                       return '';
                     },
               obscureText: (widget.isObscure == true) ? true : false,
