@@ -10,15 +10,19 @@ class CustomTextField extends StatefulWidget {
   final Function onChanged;
   final bool isObscure;
   final Function onFieldSubmitted;
+  final Function onSaved;
+  final Function validator;
 
   const CustomTextField({
     @required this.title,
     @required this.hintText,
     @required this.controller,
     @required this.keyboardType,
-    @required this.onChanged,
+    this.onChanged,
     @required this.isObscure,
     @required this.onFieldSubmitted,
+    this.onSaved,
+    this.validator,
   });
 
   @override
@@ -57,7 +61,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
             child: TextFormField(
               textInputAction: TextInputAction.next,
               onFieldSubmitted: widget.onFieldSubmitted,
-              onChanged: widget.onChanged,
+              onChanged: (widget.onChanged != null) ? widget.onChanged : () {},
+              onSaved: (widget.onSaved != null) ? widget.onSaved : () {},
+              validator: (widget.validator != null)
+                  ? widget.validator
+                  : () {
+                      return '';
+                    },
               obscureText: (widget.isObscure == true) ? true : false,
               controller: widget.controller,
               keyboardType: widget.keyboardType,

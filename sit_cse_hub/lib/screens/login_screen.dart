@@ -13,6 +13,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passwordController;
   String email;
   String password;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -60,85 +61,94 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
-              CustomTextField(
-                title: R.string.email,
-                hintText: R.string.usn,
-                keyboardType: TextInputType.text,
-                controller: emailController,
-                onChanged: (value) {
-                  setState(() {
-                    email = value;
-                  });
-                },
-                isObscure: false,
-                onFieldSubmitted: (a) => FocusScope.of(context).nextFocus(),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              CustomTextField(
-                title: R.string.password,
-                hintText: R.string.maskedPassword,
-                keyboardType: TextInputType.text,
-                controller: passwordController,
-                onChanged: (value) {
-                  setState(() {
-                    password = value;
-                  });
-                },
-                isObscure: true,
-                onFieldSubmitted: (a) => FocusScope.of(context).nextFocus(),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              Container(
-                alignment: Alignment(1.0, 0.0),
-                padding: EdgeInsets.only(
-                  right: 10.0,
-                ),
-                child: InkWell(
-                  onTap: () {},
-                  child: Text(
-                    R.string.forgotPassword,
-                    style: TextStyle(
-                      fontFamily: R.string.lato,
-                      color: R.color.primaryTheme,
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    CustomTextField(
+                      title: R.string.email,
+                      hintText: R.string.usn,
+                      keyboardType: TextInputType.text,
+                      controller: emailController,
+                      onChanged: (value) {
+                        setState(() {
+                          email = value;
+                        });
+                      },
+                      isObscure: false,
+                      onFieldSubmitted: (a) =>
+                          FocusScope.of(context).nextFocus(),
                     ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              RaisedButton(
-                color: R.color.primaryTheme,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    30.0,
-                  ),
-                ),
-                onPressed: () {
-                  print(email);
-                  print(password);
-                },
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 16,
+                    SizedBox(
+                      height: 15,
                     ),
-                    child: Text(
-                      R.string.login,
-                      style: TextStyle(
-                        fontFamily: R.string.lato,
-                        fontSize: 17,
-                        color: R.color.backgroundColor,
-                        letterSpacing: 1,
+                    CustomTextField(
+                      title: R.string.password,
+                      hintText: R.string.maskedPassword,
+                      keyboardType: TextInputType.text,
+                      controller: passwordController,
+                      onChanged: (value) {
+                        setState(() {
+                          password = value;
+                        });
+                      },
+                      isObscure: true,
+                      onFieldSubmitted: (a) =>
+                          FocusScope.of(context).nextFocus(),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Container(
+                      alignment: Alignment(1.0, 0.0),
+                      padding: EdgeInsets.only(
+                        right: 10.0,
+                      ),
+                      child: InkWell(
+                        onTap: () {},
+                        child: Text(
+                          R.string.forgotPassword,
+                          style: TextStyle(
+                            fontFamily: R.string.lato,
+                            color: R.color.primaryTheme,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    RaisedButton(
+                      color: R.color.primaryTheme,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          30.0,
+                        ),
+                      ),
+                      onPressed: () {
+                        print(email);
+                        print(password);
+                      },
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 16,
+                          ),
+                          child: Text(
+                            R.string.login,
+                            style: TextStyle(
+                              fontFamily: R.string.lato,
+                              fontSize: 17,
+                              color: R.color.backgroundColor,
+                              letterSpacing: 1,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(
