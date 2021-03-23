@@ -28,19 +28,19 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  R.string.getGreeting('Amruth'),
+                  Resource.string.getGreeting('Amruth'),
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.normal,
                     letterSpacing: 2,
-                    fontFamily: R.string.lobster,
+                    fontFamily: Resource.string.lobster,
                   ),
                 ),
                 SizedBox(
                   width: 10,
                 ),
                 Lottie.asset(
-                  R.image.homeGif,
+                  Resource.image.homeGif,
                   height: 180,
                 ),
               ],
@@ -54,10 +54,10 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  R.string.home,
+                  Resource.string.home,
                   style: TextStyle(
                     fontSize: 25,
-                    fontFamily: R.string.lato,
+                    fontFamily: Resource.string.lato,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     gradient: LinearGradient(
-                      colors: R.color.royalBlue,
+                      colors: Resource.color.royalBlue,
                     ),
                   ),
                   child: Row(
@@ -83,17 +83,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       Icon(
                         FontAwesomeIcons.chalkboardTeacher,
                         size: 40,
-                        color: R.color.whiteColor,
+                        color: Resource.color.whiteColor,
                       ),
                       SizedBox(
                         width: 30,
                       ),
                       Text(
-                        R.string.lecturePlan,
+                        Resource.string.lecturePlan,
                         style: TextStyle(
                           fontSize: 18,
-                          color: R.color.whiteColor,
-                          fontFamily: R.string.lato,
+                          color: Resource.color.whiteColor,
+                          fontFamily: Resource.string.lato,
                         ),
                       )
                     ],
@@ -108,10 +108,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Expanded(
                       child: HomePageOption(
                         icon: FontAwesomeIcons.bullhorn,
-                        color: R.color.coolblues,
-                        title: R.string.notifications,
+                        color: Resource.color.coolblues,
+                        title: Resource.string.notifications,
                         onTap: () {
-                          R.navigation.push(
+                          Resource.navigation.push(
                             context: context,
                             screen: MyRoute.notificationScreen,
                           );
@@ -124,10 +124,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Expanded(
                       child: HomePageOption(
                         icon: FontAwesomeIcons.clipboardList,
-                        color: R.color.purplePink,
-                        title: R.string.timeTable,
+                        color: Resource.color.purplePink,
+                        title: Resource.string.timeTable,
                         onTap: () {
-                          R.navigation.push(
+                          Resource.navigation.push(
                             context: context,
                             screen: MyRoute.timeTableScreen,
                           );
@@ -145,8 +145,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Expanded(
                       child: HomePageOption(
                         icon: FontAwesomeIcons.calendar,
-                        color: R.color.fbMessenger,
-                        title: R.string.calendarOfEvents,
+                        color: Resource.color.fbMessenger,
+                        title: Resource.string.calendarOfEvents,
                         onTap: () {},
                       ),
                     ),
@@ -156,8 +156,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Expanded(
                       child: HomePageOption(
                         icon: FontAwesomeIcons.book,
-                        color: R.color.seaBlue,
-                        title: R.string.schemeSyllabus,
+                        color: Resource.color.seaBlue,
+                        title: Resource.string.schemeSyllabus,
                         onTap: () {},
                       ),
                     ),

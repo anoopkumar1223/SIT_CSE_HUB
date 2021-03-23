@@ -12,7 +12,7 @@ class MainPageNavButtonTapped extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClayContainer(
       curveType: CurveType.convex,
-      color: R.color.mainPageButtonColor,
+      color: Resource.color.mainPageButtonColor,
       depth: 50,
       spread: 5,
       borderRadius: 40,
@@ -23,7 +23,7 @@ class MainPageNavButtonTapped extends StatelessWidget {
         child: Icon(
           icon,
           size: 25,
-          color: R.color.mainPageButtonIconColor,
+          color: Resource.color.mainPageButtonIconColor,
         ),
       ),
     );

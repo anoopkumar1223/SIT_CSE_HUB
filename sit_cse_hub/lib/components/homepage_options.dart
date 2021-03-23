@@ -36,7 +36,7 @@ class HomePageOption extends StatelessWidget {
               Icon(
                 icon,
                 size: 25,
-                color: R.color.whiteColor,
+                color: Resource.color.whiteColor,
               ),
               SizedBox(
                 height: 15,
@@ -45,8 +45,8 @@ class HomePageOption extends StatelessWidget {
                 title,
                 style: TextStyle(
                   fontSize: 16,
-                  color: R.color.whiteColor,
-                  fontFamily: R.string.lato,
+                  color: Resource.color.whiteColor,
+                  fontFamily: Resource.string.lato,
                 ),
               )
             ],

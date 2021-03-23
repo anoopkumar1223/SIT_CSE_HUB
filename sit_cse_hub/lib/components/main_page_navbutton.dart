@@ -16,7 +16,7 @@ class MainPageNavButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: ClayContainer(
-        color: R.color.mainPageButtonColor,
+        color: Resource.color.mainPageButtonColor,
         depth: 100,
         spread: 2,
         borderRadius: 40,
@@ -27,7 +27,7 @@ class MainPageNavButton extends StatelessWidget {
           child: Icon(
             icon,
             size: 25,
-            color: R.color.mainPageButtonIconColor,
+            color: Resource.color.mainPageButtonIconColor,
           ),
         ),
       ),

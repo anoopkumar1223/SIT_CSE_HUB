@@ -10,17 +10,19 @@ class CustomTextField extends StatefulWidget {
   final Function onChanged;
   final bool isObscure;
   final Function onFieldSubmitted;
+  final Function onEditingComplete;
   final Function onSaved;
   final Function validator;
 
-  const CustomTextField({
+  CustomTextField({
     @required this.title,
     @required this.hintText,
     @required this.controller,
     @required this.keyboardType,
     this.onChanged,
     @required this.isObscure,
-    @required this.onFieldSubmitted,
+    this.onFieldSubmitted,
+    this.onEditingComplete,
     this.onSaved,
     this.validator,
   });
@@ -41,7 +43,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             widget.title,
             style: TextStyle(
               fontSize: 17,
-              fontFamily: R.string.lato,
+              fontFamily: Resource.string.lato,
             ),
           ),
         ),
@@ -52,7 +54,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           spread: 3,
           depth: 20,
           borderRadius: 50.0,
-          color: R.color.backgroundColor,
+          color: Resource.color.backgroundColor,
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: 20,
@@ -60,10 +62,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
             child: TextFormField(
               textInputAction: TextInputAction.next,
-              onFieldSubmitted: widget.onFieldSubmitted,
+              onEditingComplete: (widget.onEditingComplete != null)
+                  ? widget.onEditingComplete
+                  : () {},
+              onFieldSubmitted: (widget.onFieldSubmitted != null)
+                  ? widget.onFieldSubmitted
+                  : (value) {},
               onChanged:
                   (widget.onChanged != null) ? widget.onChanged : (value) {},
-              onSaved: (widget.onSaved != null) ? widget.onSaved : () {},
+              onSaved: (widget.onSaved != null) ? widget.onSaved : (value) {},
               validator: (widget.validator != null)
                   ? widget.validator
                   : (a) {

@@ -1,8 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:sit_cse_hub/resources/resource.dart';
 import 'package:sit_cse_hub/resources/router.dart';
-import 'package:sit_cse_hub/screens/login_screen.dart';
+import 'package:sit_cse_hub/screens/user_selection_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -10,8 +14,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        backgroundColor: Resource.color.primaryTheme,
+      ),
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: UserSelectionScreen(),
       onGenerateRoute: MyRouter.generateRoute,
     );
   }

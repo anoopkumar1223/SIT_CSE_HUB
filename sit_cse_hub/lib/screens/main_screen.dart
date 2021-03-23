@@ -62,7 +62,7 @@ class _MainScreenState extends State<MainScreen> {
           60,
         ),
         child: AppBar(
-          backgroundColor: R.color.backgroundColor,
+          backgroundColor: Resource.color.backgroundColor,
           centerTitle: true,
           actions: <Widget>[
             Padding(
@@ -71,14 +71,14 @@ class _MainScreenState extends State<MainScreen> {
                 right: 10,
               ),
               child: CircleAvatar(
-                backgroundColor: R.color.blueGrey,
+                backgroundColor: Resource.color.blueGrey,
                 radius: 20,
                 child: Padding(
                   padding: EdgeInsets.only(
                     bottom: 12,
                   ),
                   child: Lottie.asset(
-                    R.image.profileGif,
+                    Resource.image.profileGif,
                     height: 40,
                   ),
                 ),
@@ -86,18 +86,18 @@ class _MainScreenState extends State<MainScreen> {
             )
           ],
           title: Text(
-            R.string.sitCseHub,
+            Resource.string.sitCseHub,
             style: TextStyle(
-              color: R.color.blackColor,
+              color: Resource.color.blackColor,
               letterSpacing: 2,
-              fontFamily: R.string.lato,
+              fontFamily: Resource.string.lato,
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
       ),
-      backgroundColor: R.color.backgroundColor,
+      backgroundColor: Resource.color.backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: getScreen(),

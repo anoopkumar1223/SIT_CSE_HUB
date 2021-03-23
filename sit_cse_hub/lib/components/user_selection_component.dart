@@ -27,7 +27,7 @@ class _UserSelectionComponentState extends State<UserSelectionComponent> {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: R.color.borderColor,
+            color: Resource.color.borderColor,
             width: widget.width,
           ),
           borderRadius: BorderRadius.all(
@@ -35,7 +35,7 @@ class _UserSelectionComponentState extends State<UserSelectionComponent> {
               30,
             ),
           ),
-          color: R.color.primaryTheme,
+          color: Resource.color.primaryTheme,
         ),
         child: Row(
           children: <Widget>[
@@ -48,9 +48,9 @@ class _UserSelectionComponentState extends State<UserSelectionComponent> {
               widget.title,
               style: TextStyle(
                 fontSize: 22,
-                fontFamily: R.string.bangers,
+                fontFamily: Resource.string.lato,
                 letterSpacing: 2,
-                color: R.color.whiteColor,
+                color: Resource.color.whiteColor,
               ),
             ),
           ],

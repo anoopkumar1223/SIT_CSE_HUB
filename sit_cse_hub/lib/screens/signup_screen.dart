@@ -1,23 +1,22 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sit_cse_hub/components/custom_loader.dart';
 import 'package:sit_cse_hub/components/custom_textfield.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
 import 'package:sit_cse_hub/resources/route.dart';
-import 'package:sit_cse_hub/services/firebase_services/auth_service.dart';
 
-class LoginScreen extends StatefulWidget {
+class SignupScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignupScreenState createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+class _SignupScreenState extends State<SignupScreen> {
+  TextEditingController emailController;
+  TextEditingController passwordController;
   String email;
   String password;
   final _formKey = GlobalKey<FormState>();
-  FocusNode node = FocusNode();
+  final auth = FirebaseAuth.instance;
 
   Function emailValidator = (String value) {
     if (value.isEmpty) return Resource.string.required;
@@ -28,11 +27,12 @@ class _LoginScreenState extends State<LoginScreen> {
     if (value.isEmpty) return Resource.string.required;
     return null;
   };
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).requestFocus(node);
+        FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
         backgroundColor: Resource.color.backgroundColor,
@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: <Widget>[
                   Center(
                     child: Text(
-                      Resource.string.loginAccount,
+                      Resource.string.register,
                       style: TextStyle(
                         fontSize: 25,
                         letterSpacing: 1,
@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             Text(
-                              Resource.string.login,
+                              Resource.string.signUp,
                               style: TextStyle(
                                 fontSize: 35.0,
                                 fontWeight: FontWeight.w900,
@@ -84,9 +84,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         ),
                         Lottie.asset(
-                          Resource.image.loginGif,
+                          Resource.image.registerGif,
                           height: 250,
-                          width: 200,
                         ),
                       ],
                     ),
@@ -127,46 +126,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           height: 20.0,
                         ),
-                        Container(
-                          alignment: Alignment(1.0, 0.0),
-                          padding: EdgeInsets.only(
-                            right: 10.0,
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              String email;
-                              TextEditingController controller =
-                                  TextEditingController();
-                              getEmailRequester(
-                                title: 'Request password reset',
-                                hintText: 'usn@sit.ac.in',
-                                controller: controller,
-                                context: context,
-                                textFeildTitle: 'Email',
-                                onChanged: (value) {
-                                  email = value;
-                                },
-                                onPressed: () {
-                                  CustomLoader.getLoader(context);
-                                  MyAuthService.passwordReset(context, email);
-                                },
-                              );
-                            },
-                            child: Text(
-                              Resource.string.forgotPassword,
-                              style: TextStyle(
-                                fontFamily: Resource.string.lato,
-                                color: Resource.color.primaryTheme,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
                         ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
@@ -179,13 +138,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-                          onPressed: () async {
+                          onPressed: () {
                             if (!_formKey.currentState.validate()) {
                               return;
                             }
                             _formKey.currentState.save();
-                            CustomLoader.getLoader(context);
-                            MyAuthService.signIn(email, password, context);
                           },
                           child: Center(
                             child: Padding(
@@ -193,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 vertical: 16,
                               ),
                               child: Text(
-                                Resource.string.login,
+                                Resource.string.signUp,
                                 style: TextStyle(
                                   fontFamily: Resource.string.lato,
                                   fontSize: 17,
@@ -214,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        Resource.string.noAccount,
+                        Resource.string.alreadyRegistered,
                         style: TextStyle(
                           fontFamily: Resource.string.lato,
                           fontSize: 16,
@@ -227,11 +184,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTap: () {
                           Resource.navigation.pushReplacement(
                             context: context,
-                            screen: MyRoute.signupScreen,
+                            screen: MyRoute.loginScreen,
                           );
                         },
                         child: Text(
-                          Resource.string.signUp,
+                          Resource.string.login,
                           style: TextStyle(
                             color: Resource.color.primaryTheme,
                             fontWeight: FontWeight.bold,
@@ -251,78 +208,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-}
-
-Future<dynamic> getEmailRequester({
-  BuildContext context,
-  String title,
-  String textFeildTitle,
-  String hintText,
-  TextEditingController controller,
-  Function onFieldSubmitted,
-  Function onChanged,
-  Function onPressed,
-}) {
-  return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          title: Text(
-            title,
-            style: TextStyle(
-              fontFamily: Resource.string.lato,
-            ),
-          ),
-          content: Container(
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(
-                  height: 10,
-                ),
-                CustomTextField(
-                  title: textFeildTitle,
-                  hintText: hintText,
-                  controller: controller,
-                  keyboardType: TextInputType.text,
-                  isObscure: false,
-                  onFieldSubmitted: (a) {
-                    FocusScope.of(context).unfocus();
-                  },
-                  onChanged: onChanged,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                      Resource.color.primaryTheme,
-                    ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
-                  ),
-                  onPressed: onPressed,
-                  child: Padding(
-                    padding: EdgeInsets.all(
-                      15,
-                    ),
-                    child: Text(
-                      Resource.string.ok,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      });
 }

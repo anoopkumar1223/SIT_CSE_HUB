@@ -2,6 +2,9 @@ class MyString {
   //General
   String get student => 'Student';
   String get professor => 'Professor';
+  String get required => 'This feild is required';
+  String get ok => 'OK';
+  String get loading => 'Loading';
 
   //Fonts
   String get lato => 'Lato';
@@ -12,6 +15,8 @@ class MyString {
   String get tellUsWhoYouAre => 'Tell us who you are?';
 
   //Login Screen
+
+  String get loginAccount => 'Login to your account';
   String get welcome => 'Welcome';
   String get login => 'Login';
   String get email => 'Email';
@@ -22,7 +27,9 @@ class MyString {
   String get noAccount => 'Won\'t have an account?';
 
   //SignUp screen
+  String get register => 'Register now';
   String get signUp => 'Sign up';
+  String get alreadyRegistered => 'Already have an acount?';
 
   //Home
   String get sitCseHub => '<SITCSE-HUB/>';

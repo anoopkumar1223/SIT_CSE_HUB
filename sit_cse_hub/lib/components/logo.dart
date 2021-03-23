@@ -8,7 +8,7 @@ class Logo extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClayContainer(
       curveType: CurveType.convex,
-      color: R.color.backgroundColor,
+      color: Resource.color.backgroundColor,
       height: 220,
       width: 220,
       borderRadius: 50,
@@ -33,7 +33,7 @@ class Logo extends StatelessWidget {
                     Icon(
                       Icons.laptop_mac,
                       size: 75,
-                      color: R.color.splashComponentsColor,
+                      color: Resource.color.splashComponentsColor,
                     ),
                     SizedBox(
                       width: 8,
@@ -44,7 +44,7 @@ class Logo extends StatelessWidget {
                       ),
                       child: Icon(
                         FontAwesomeIcons.coffee,
-                        color: R.color.splashComponentsColor,
+                        color: Resource.color.splashComponentsColor,
                       ),
                     )
                   ],
@@ -57,7 +57,7 @@ class Logo extends StatelessWidget {
                 '<SITCSE-HUB/>',
                 style: TextStyle(
                   fontFamily: 'Bangers',
-                  color: R.color.splashComponentsColor,
+                  color: Resource.color.splashComponentsColor,
                   fontSize: 30,
                   letterSpacing: 2,
                   fontWeight: FontWeight.bold,
