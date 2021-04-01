@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sit_cse_hub/components/custom_loader.dart';
@@ -18,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String password;
   final _formKey = GlobalKey<FormState>();
   FocusNode node = FocusNode();
+  Future<UserCredential> userCredential;
 
   Function emailValidator = (String value) {
     if (value.isEmpty) return Resource.string.required;
@@ -142,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 hintText: 'usn@sit.ac.in',
                                 controller: controller,
                                 context: context,
-                                textFeildTitle: 'Email',
+                                textFieldTitle: 'Email',
                                 onChanged: (value) {
                                   email = value;
                                 },
@@ -256,7 +258,7 @@ class _LoginScreenState extends State<LoginScreen> {
 Future<dynamic> getEmailRequester({
   BuildContext context,
   String title,
-  String textFeildTitle,
+  String textFieldTitle,
   String hintText,
   TextEditingController controller,
   Function onFieldSubmitted,
@@ -286,7 +288,7 @@ Future<dynamic> getEmailRequester({
                   height: 10,
                 ),
                 CustomTextField(
-                  title: textFeildTitle,
+                  title: textFieldTitle,
                   hintText: hintText,
                   controller: controller,
                   keyboardType: TextInputType.text,

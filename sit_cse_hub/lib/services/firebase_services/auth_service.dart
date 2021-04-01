@@ -1,5 +1,5 @@
+import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:sit_cse_hub/components/custom_error_dialog.dart';
 import 'package:sit_cse_hub/resources/navigation.dart';
 import 'package:sit_cse_hub/resources/route.dart';
@@ -14,16 +14,21 @@ class MyAuthService {
         password: password.trim(),
       );
       User user = userCredential.user;
-      String uid = user.uid;
       Map userDetails = {
-        'uid': uid,
+        'user': user,
       };
       MyNavigation().pop(context: context);
-      MyNavigation().pushReplacement(
-        context: context,
-        screen: MyRoute.mainScreen,
-        arguments: userDetails,
-      );
+      if (auth.currentUser.emailVerified) {
+        MyNavigation().pushReplacement(
+          context: context,
+          screen: MyRoute.mainScreen,
+          arguments: userDetails,
+        );
+      } else
+        MyNavigation().pushReplacement(
+          context: context,
+          screen: MyRoute.verifyScreen,
+        );
     } catch (e) {
       MyNavigation().pop(context: context);
       switch (e.code) {
@@ -131,7 +136,59 @@ class MyAuthService {
     }
   }
 
-  static Future<UserCredential> signUp(String email, String password) async {
+  static void signUp(
+      String email, String password, BuildContext context) async {
+    try {
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+        email: email.trim(),
+        password: password.trim(),
+      );
+      /*User user = userCredential.user;
+      Map userDetails = {
+        'user': user,
+      };*/
+      MyNavigation().pop(context: context);
+      MyNavigation().pushReplacement(
+        context: context,
+        screen: MyRoute.verifyScreen,
+      );
+    } catch (e) {
+      MyNavigation().pop(context: context);
+      print(e.code);
+      switch (e.code) {
+        case 'network-request-failed':
+          CustomErrorDialog.getErrorBox(
+            context,
+            'Please make sure your device has an internet connection',
+          );
+          break;
+        case 'invalid-email':
+          CustomErrorDialog.getErrorBox(
+            context,
+            'Please enter a valid Email Id',
+          );
+          break;
+        case 'email-already-in-use':
+          CustomErrorDialog.getErrorBox(
+            context,
+            'User already exists. Please login.',
+          );
+          break;
+        case 'weak-password':
+          CustomErrorDialog.getErrorBox(
+            context,
+            'Password must be at least six characters long',
+          );
+          break;
+        default:
+          CustomErrorDialog.getErrorBox(context,
+              e.message + ' Report this error here: support@sitcsehub.in');
+          break;
+      }
+    }
+  }
+
+  /*static Future<UserCredential> signUp(String email, String password) async {
     try {
       UserCredential user = await auth.createUserWithEmailAndPassword(
           email: email, password: email);
@@ -150,5 +207,5 @@ class MyAuthService {
       }
       return Future.value(null);
     }
-  }
+  }*/
 }

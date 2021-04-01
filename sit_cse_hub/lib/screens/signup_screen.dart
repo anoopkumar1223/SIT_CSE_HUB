@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sit_cse_hub/components/custom_loader.dart';
 import 'package:sit_cse_hub/components/custom_textfield.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
 import 'package:sit_cse_hub/resources/route.dart';
+import 'package:sit_cse_hub/services/firebase_services/auth_service.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -143,6 +145,8 @@ class _SignupScreenState extends State<SignupScreen> {
                               return;
                             }
                             _formKey.currentState.save();
+                            CustomLoader.getLoader(context);
+                            MyAuthService.signUp(email, password, context);
                           },
                           child: Center(
                             child: Padding(

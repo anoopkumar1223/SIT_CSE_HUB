@@ -5,6 +5,7 @@ import 'package:sit_cse_hub/screens/main_screen.dart';
 import 'package:sit_cse_hub/screens/notification_screen.dart';
 import 'package:sit_cse_hub/screens/timetable_screen.dart';
 import 'package:sit_cse_hub/screens/signup_screen.dart';
+import 'package:sit_cse_hub/screens/verify_email.dart';
 
 class MyRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -13,6 +14,8 @@ class MyRouter {
         return MaterialPageRoute(builder: (_) => LoginScreen());
       case MyRoute.signupScreen:
         return MaterialPageRoute(builder: (_) => SignupScreen());
+      case MyRoute.verifyScreen:
+        return MaterialPageRoute(builder: (_) => VerifyScreen());
       case MyRoute.mainScreen:
         return MaterialPageRoute(builder: (_) => MainScreen());
       case MyRoute.notificationScreen:
