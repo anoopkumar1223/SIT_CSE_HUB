@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
 import 'package:sit_cse_hub/resources/router.dart';
-import 'package:sit_cse_hub/screens/user_selection_screen.dart';
+import 'package:sit_cse_hub/screens/details_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         backgroundColor: Resource.color.primaryTheme,
       ),
       debugShowCheckedModeBanner: false,
-      home: UserSelectionScreen(),
+      home: DetailsScreen(),
       onGenerateRoute: MyRouter.generateRoute,
     );
   }

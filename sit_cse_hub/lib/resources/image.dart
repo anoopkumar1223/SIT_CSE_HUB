@@ -6,4 +6,5 @@ class MyImage {
   String get loginGif => 'assets/images/login.json';
   String get professorGif => 'assets/images/profesor.json';
   String get studentGif => 'assets/images/student.json';
+  String get detailsGif => 'assets/images/details.json';
 }

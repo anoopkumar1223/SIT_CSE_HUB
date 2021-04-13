@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:lottie/lottie.dart';
+import 'package:sit_cse_hub/resources/resource.dart';
 import 'package:sit_cse_hub/screens/main_screen.dart';
 
 class VerifyScreen extends StatefulWidget {
@@ -33,8 +36,28 @@ class _VerifyScreenState extends State<VerifyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('An email has been sent to ${user.email} please verify'),
+      backgroundColor: Resource.color.backgroundColor,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Lottie.asset(
+            Resource.image.detailsGif,
+            width: 200,
+            height: 200,
+          ),
+          Flexible(
+            child: Text(
+              'An email has been sent to\n ${user.email}.\n please verify',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Lato',
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
