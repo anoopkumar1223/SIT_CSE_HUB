@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sit_cse_hub/components/custom_loader.dart';
+import 'package:sit_cse_hub/components/custom_text_button.dart';
 import 'package:sit_cse_hub/components/custom_textfield.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
 import 'package:sit_cse_hub/resources/route.dart';
@@ -128,19 +129,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         SizedBox(
                           height: 20.0,
                         ),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              Resource.color.primaryTheme,
-                            ),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
-                          ),
-                          onPressed: () {
+                        CustomTextButton(
+                          title: Resource.string.signUp,
+                          onPressed: () async {
                             if (!_formKey.currentState.validate()) {
                               return;
                             }
@@ -148,22 +139,6 @@ class _SignupScreenState extends State<SignupScreen> {
                             CustomLoader.getLoader(context);
                             MyAuthService.signUp(email, password, context);
                           },
-                          child: Center(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 16,
-                              ),
-                              child: Text(
-                                Resource.string.signUp,
-                                style: TextStyle(
-                                  fontFamily: Resource.string.lato,
-                                  fontSize: 17,
-                                  color: Resource.color.backgroundColor,
-                                  letterSpacing: 1,
-                                ),
-                              ),
-                            ),
-                          ),
                         ),
                       ],
                     ),

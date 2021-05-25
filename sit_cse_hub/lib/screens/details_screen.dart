@@ -1,9 +1,15 @@
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sit_cse_hub/components/custom_circle_avatar.dart';
 import 'package:sit_cse_hub/components/custom_dropdown.dart';
+import 'package:sit_cse_hub/components/custom_icon_button.dart';
+import 'package:sit_cse_hub/components/custom_loader.dart';
+import 'package:sit_cse_hub/components/custom_text_button.dart';
+import 'package:sit_cse_hub/resources/navigation.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
 import 'package:sit_cse_hub/components/custom_textfield.dart';
+import 'package:sit_cse_hub/services/firebase_services/firestore_service.dart';
 
 class DetailsScreen extends StatefulWidget {
   @override
@@ -19,10 +25,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
   String lastName;
   String usn;
   String phone;
-  String valueYear;
-  String valueSec;
-  List<String> yearList = ['I Year', 'II Year', 'III Year', 'IV Year'];
-  List<String> sectionList = ['A Section', 'B Section', 'C Section'];
+  String year;
+  String section;
+  List<String> yearList = ['I', 'II', 'III', 'IV'];
+  List<String> sectionList = ['A', 'B', 'C'];
+  String profile = 'assets/images/profile_boy.json';
   final _formKey = GlobalKey<FormState>();
   FocusNode node = FocusNode();
 
@@ -115,65 +122,55 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ),
                     ],
                   ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 8,
+                    ),
+                    child: Text(
+                      'Profile image',
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontFamily: Resource.string.lato,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   ClayContainer(
                     spread: 3,
                     depth: 20,
                     borderRadius: 50.0,
+                    color: Resource.color.backgroundColor,
                     width: MediaQuery.of(context).size.width,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Lottie.asset(
-                          Resource.image.profileGif,
-                          height: 150,
-                          width: 150,
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 15,
+                          ),
+                          child: CustomCircleAvatar(
+                            radius: 60,
+                            imagePath: profile,
+                            onPressed: () {},
+                          ),
                         ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Select profile image'),
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: ElevatedButton(
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                        Resource.color.primaryTheme,
-                                      ),
-                                      shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(
-                                              50,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 20,
-                                        vertical: 15,
-                                      ),
-                                      child: Icon(
-                                        Icons.add,
-                                        color: Resource.color.whiteColor,
-                                        size: 40,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                        CustomIconButton(
+                          onPressed: () {
+                            getProfilePics(context);
+                          },
+                          borderRadius: 50,
+                          horizontalPadding: 15,
+                          verticalPadding: 10,
+                          icon: Icons.add,
+                          iconSize: 40,
                         ),
                       ],
                     ),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   Form(
                     key: _formKey,
@@ -249,10 +246,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             CustomDropDown(
                               title: 'Year',
                               options: yearList,
-                              selectedOption: valueYear,
+                              selectedOption: year,
                               onChanged: (newValue1) {
                                 setState(() {
-                                  valueYear = newValue1;
+                                  year = newValue1;
                                 });
                               },
                               width: MediaQuery.of(context).size.width / 2.2,
@@ -261,10 +258,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             CustomDropDown(
                               title: 'Section',
                               options: sectionList,
-                              selectedOption: valueSec,
+                              selectedOption: section,
                               onChanged: (newValue1) {
                                 setState(() {
-                                  valueSec = newValue1;
+                                  section = newValue1;
                                 });
                               },
                               width: MediaQuery.of(context).size.width / 2.2,
@@ -275,41 +272,26 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         SizedBox(
                           height: 20,
                         ),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              Resource.color.primaryTheme,
-                            ),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
-                          ),
-                          onPressed: () async {
-                            print(valueYear);
+                        CustomTextButton(
+                          title: Resource.string.submit,
+                          onPressed: () {
+                            print(year);
                             if (!_formKey.currentState.validate()) {
                               return;
                             }
                             _formKey.currentState.save();
+                            CustomLoader.getLoader(context);
+                            Database.addStudentData(
+                              fName: firstName,
+                              lName: lastName,
+                              usn: usn,
+                              phone: phone,
+                              year: year,
+                              section: section,
+                              context: context,
+                            );
+                            MyNavigation().pop(context: context);
                           },
-                          child: Center(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 16,
-                              ),
-                              child: Text(
-                                Resource.string.submit,
-                                style: TextStyle(
-                                  fontFamily: Resource.string.lato,
-                                  fontSize: 17,
-                                  color: Resource.color.backgroundColor,
-                                  letterSpacing: 1,
-                                ),
-                              ),
-                            ),
-                          ),
                         ),
                       ],
                     ),
@@ -321,5 +303,88 @@ class _DetailsScreenState extends State<DetailsScreen> {
         ),
       ),
     );
+  }
+
+  Future<dynamic> getProfilePics(BuildContext context) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            title: Text(
+              'Select your profile image',
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(
+                  height: 10,
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      CustomCircleAvatar(
+                        radius: 60,
+                        imagePath: 'assets/images/profile_boy.json',
+                        onPressed: () {
+                          setState(() {
+                            profile = 'assets/images/profile_boy.json';
+                          });
+                          MyNavigation().pop(context: context);
+                        },
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      CustomCircleAvatar(
+                        radius: 60,
+                        imagePath: 'assets/images/profile_girl.json',
+                        onPressed: () {
+                          setState(() {
+                            profile = 'assets/images/profile_girl.json';
+                          });
+                          MyNavigation().pop(context: context);
+                        },
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      CustomCircleAvatar(
+                        radius: 60,
+                        imagePath: 'assets/images/profile_boy_with_laptop.json',
+                        onPressed: () {
+                          setState(() {
+                            profile =
+                                'assets/images/profile_boy_with_laptop.json';
+                          });
+                          MyNavigation().pop(context: context);
+                        },
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      CustomCircleAvatar(
+                        radius: 60,
+                        imagePath:
+                            'assets/images/profile_girl_with_laptop.json',
+                        onPressed: () {
+                          setState(() {
+                            profile =
+                                'assets/images/profile_girl_with_laptop.json';
+                          });
+                          MyNavigation().pop(context: context);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

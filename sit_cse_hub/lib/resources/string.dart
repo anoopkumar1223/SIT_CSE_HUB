@@ -38,12 +38,12 @@ class MyString {
   String get lastName => 'Last Name';
   String get detailsUsn => 'USN';
   String get num => 'Phone';
-  String get phoneNum => 'Eg. 8888888888';
-  String get john => 'Eg. John';
-  String get ca => 'Eg. C.A ';
-  String get john1 => 'Eg. 1SI*CS**';
+  String get phoneNum => 'Eg: 8888888888';
+  String get john => 'Eg: John';
+  String get ca => 'Eg: C.A ';
+  String get john1 => 'Eg: 1SI**CS***';
   String get submit => 'Submit';
-  String get tellUsABit =>'Tell us a bit about yourself';
+  String get tellUsABit => 'Tell us a bit about yourself';
   String get select => 'Select';
 
   //Home
@@ -55,4 +55,7 @@ class MyString {
   String get timeTable => 'Time Table';
   String get calendarOfEvents => 'Calendar of events';
   String get schemeSyllabus => 'Scheme and syllabus';
+
+  //Notification
+  String get notification => '<Notifications/>';
 }

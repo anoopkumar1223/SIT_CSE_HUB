@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sit_cse_hub/components/custom_loader.dart';
+import 'package:sit_cse_hub/components/custom_text_button.dart';
 import 'package:sit_cse_hub/components/custom_textfield.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
 import 'package:sit_cse_hub/resources/route.dart';
@@ -32,6 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
   };
   @override
   Widget build(BuildContext context) {
+    Map data = ModalRoute.of(context).settings.arguments;
+    print(data);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(node);
@@ -169,18 +172,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           height: 15,
                         ),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              Resource.color.primaryTheme,
-                            ),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
-                          ),
+                        CustomTextButton(
+                          title: Resource.string.login,
                           onPressed: () async {
                             if (!_formKey.currentState.validate()) {
                               return;
@@ -189,22 +182,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             CustomLoader.getLoader(context);
                             MyAuthService.signIn(email, password, context);
                           },
-                          child: Center(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 16,
-                              ),
-                              child: Text(
-                                Resource.string.login,
-                                style: TextStyle(
-                                  fontFamily: Resource.string.lato,
-                                  fontSize: 17,
-                                  color: Resource.color.backgroundColor,
-                                  letterSpacing: 1,
-                                ),
-                              ),
-                            ),
-                          ),
                         ),
                       ],
                     ),

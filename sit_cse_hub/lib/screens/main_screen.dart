@@ -62,6 +62,7 @@ class _MainScreenState extends State<MainScreen> {
           60,
         ),
         child: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: Resource.color.backgroundColor,
           centerTitle: true,
           actions: <Widget>[
@@ -89,9 +90,9 @@ class _MainScreenState extends State<MainScreen> {
             Resource.string.sitCseHub,
             style: TextStyle(
               color: Resource.color.blackColor,
-              letterSpacing: 2,
-              fontFamily: Resource.string.lato,
-              fontSize: 22,
+              letterSpacing: 4,
+              fontFamily: Resource.string.bangers,
+              fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),

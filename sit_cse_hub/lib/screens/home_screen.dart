@@ -32,8 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.normal,
-                    letterSpacing: 2,
-                    fontFamily: Resource.string.lobster,
+                    letterSpacing: 3,
+                    fontFamily: Resource.string.bangers,
                   ),
                 ),
                 SizedBox(

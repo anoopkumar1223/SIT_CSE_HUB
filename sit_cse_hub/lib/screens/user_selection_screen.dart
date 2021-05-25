@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sit_cse_hub/components/custom_error_dialog.dart';
+import 'package:sit_cse_hub/components/custom_icon_button.dart';
+import 'package:sit_cse_hub/resources/constant.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
 import 'package:sit_cse_hub/components/user_selection_component.dart';
 import 'package:sit_cse_hub/resources/route.dart';
@@ -13,6 +16,7 @@ class UserSelectionScreen extends StatefulWidget {
 class _UserSelectionScreenState extends State<UserSelectionScreen> {
   bool isStudent = false;
   bool isProfessor = false;
+  UserType userType;
 
   @override
   Widget build(BuildContext context) {
@@ -66,33 +70,32 @@ class _UserSelectionScreenState extends State<UserSelectionScreen> {
           ),
         ),
       ),
-      floatingActionButton: ElevatedButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(
-            Resource.color.primaryTheme,
-          ),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-          ),
-        ),
+      floatingActionButton: CustomIconButton(
         onPressed: () {
-          Resource.navigation.push(
-            context: context,
-            screen: MyRoute.loginScreen,
-          );
+          if (isProfessor == false && isStudent == false)
+            CustomErrorDialog.getErrorBox(
+              context,
+              'Please select one of the options',
+            );
+          else {
+            if (isStudent == true)
+              userType = UserType.STUDENT;
+            else
+              userType = UserType.PROFESSOR;
+            Resource.navigation.push(
+              context: context,
+              screen: MyRoute.loginScreen,
+              arguments: {
+                'userType': userType,
+              },
+            );
+          }
         },
-        child: Padding(
-          padding: EdgeInsets.all(
-            15,
-          ),
-          child: Icon(
-            FontAwesomeIcons.arrowRight,
-            size: 20,
-            color: Resource.color.whiteColor,
-          ),
-        ),
+        borderRadius: 30,
+        horizontalPadding: 15,
+        verticalPadding: 15,
+        icon: FontAwesomeIcons.arrowRight,
+        iconSize: 20,
       ),
     );
   }
