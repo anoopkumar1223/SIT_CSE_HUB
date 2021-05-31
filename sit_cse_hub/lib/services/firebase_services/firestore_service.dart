@@ -3,8 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:sit_cse_hub/components/custom_error_dialog.dart';
 
 class Database {
-  static DocumentReference studentDocument;
-
   static Future addStudentData({
     @required String fName,
     @required String lName,
@@ -14,6 +12,7 @@ class Database {
     @required String section,
     @required BuildContext context,
   }) async {
+    DocumentReference studentDocument;
     Map<String, dynamic> studentData = {
       'firstName': fName,
       'lastName': lName,
@@ -31,6 +30,49 @@ class Database {
       return await studentDocument.set(studentData);
     } catch (error) {
       CustomErrorDialog.getErrorBox(context, error.message);
+    }
+  }
+
+  static Future addNotification({
+    @required String title,
+    @required String desc,
+    @required sendTo,
+    String year,
+    String section,
+    @required String faculty,
+    @required String dateTime,
+    String attachmentUrl,
+    @required BuildContext context,
+  }) async {
+    Map<String, dynamic> notification = {
+      'title': title,
+      'desc': desc,
+      'faculty': faculty,
+      'dateTime': dateTime,
+      'attachmentUrl': attachmentUrl,
+    };
+    if (sendTo == 0) {
+      try {
+        FirebaseFirestore.instance
+            .collection('notifications')
+            .doc('everyone')
+            .collection('everyone')
+            .add(notification);
+      } catch (error) {
+        CustomErrorDialog.getErrorBox(context, error);
+      }
+    } else {
+      try {
+        print(year);
+        print(section);
+        FirebaseFirestore.instance
+            .collection('notifications')
+            .doc(year)
+            .collection(section)
+            .add(notification);
+      } catch (error) {
+        CustomErrorDialog.getErrorBox(context, error);
+      }
     }
   }
 }

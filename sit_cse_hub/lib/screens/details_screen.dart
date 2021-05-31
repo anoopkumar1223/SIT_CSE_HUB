@@ -275,7 +275,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         CustomTextButton(
                           title: Resource.string.submit,
                           onPressed: () {
-                            print(year);
                             if (!_formKey.currentState.validate()) {
                               return;
                             }

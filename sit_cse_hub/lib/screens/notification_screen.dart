@@ -1,5 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sit_cse_hub/components/custom_icon_button.dart';
+import 'package:sit_cse_hub/components/custom_notification_add.dart';
+import 'package:sit_cse_hub/components/notification_bean.dart';
+import 'package:sit_cse_hub/components/notification_component.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -8,6 +14,8 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  TextEditingController titleController;
+  TextEditingController descController;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,7 +44,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
               20,
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Lottie.asset(
                   'assets/images/notification.json',
@@ -45,42 +52,70 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        20,
-                      ),
-                    ),
-                    gradient: LinearGradient(
-                      colors: Resource.color.royalBlue,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 15,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Resource.color.whiteColor,
-                          radius: 40,
-                          child: Image.network(
-                            'https://www.google.com/imgres?imgurl=http%3A%2F%2Fwww.kauveryhospital.com%2Fdoctorimage%2Frecent%2Ftennur%2FDr-Sumathi-ravikumar.jpg&imgrefurl=https%3A%2F%2Fwww.kauveryhospital.com%2Fdoctors%2Ftrichy-tennur%2Fgeneral-surgery%2Fdr-r-sumathi-ravikumar&tbnid=rl3sg1ifb7t0-M&vet=12ahUKEwiL-4qwup7wAhWyDrcAHVAjAkAQMygAegUIARCBAQ..i&docid=4sxzZGFfpGFVlM&w=600&h=703&q=dr%20r%20sumathi&ved=2ahUKEwiL-4qwup7wAhWyDrcAHVAjAkAQMygAegUIARCBAQ',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                CustomIconButton(
+                  onPressed: () {
+                    CustomNotificationAdd.getErrorBox(
+                      context: context,
+                      titleController: titleController,
+                      descController: descController,
+                    );
+                  },
+                  borderRadius: 50,
+                  horizontalPadding: 20,
+                  verticalPadding: 20,
+                  icon: Icons.add,
+                  iconSize: 30,
                 ),
+                SizedBox(
+                  height: 20,
+                ),
+                getStreamBuilder(),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  getStreamBuilder() {
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('notifications')
+          .doc('I')
+          .collection('A')
+          .orderBy('dateTime')
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasData != true) {
+          return SpinKitFadingCircle(
+            color: Resource.color.primaryTheme,
+            size: 50.0,
+          );
+        }
+        return ListView(
+          shrinkWrap: true,
+          children: snapshot.data.docs.map((document) {
+            return Column(
+              children: [
+                NotificationComponent(
+                  notificationBean: NotificationBean(
+                    title: document['title'],
+                    desc: document['desc'],
+                    faculty: document['faculty'],
+                    dateTime: document['dateTime'],
+                    attachmentUrl: document['attachmentUrl'],
+                    picUrl: 'assets/images/logo.jpg',
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+              ],
+            );
+          }).toList(),
+        );
+      },
     );
   }
 }
