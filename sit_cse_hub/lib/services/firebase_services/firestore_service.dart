@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:sit_cse_hub/components/custom_error_dialog.dart';
 
 class Database {
@@ -8,25 +9,36 @@ class Database {
     @required String lName,
     @required String usn,
     @required String phone,
+    @required String email,
     @required String year,
     @required String section,
     @required BuildContext context,
   }) async {
+    var status = await OneSignal.shared.getPermissionSubscriptionState();
+    String tokenId = status.subscriptionStatus.userId;
+
     DocumentReference studentDocument;
+    DocumentReference infoDocument;
     Map<String, dynamic> studentData = {
       'firstName': fName,
       'lastName': lName,
       'usn': usn,
       'phone': phone,
+      'tokenId': tokenId,
+    };
+    Map<String, dynamic> yearSecInfo = {
       'year': year,
       'section': section,
     };
+    infoDocument =
+        FirebaseFirestore.instance.collection('studentYearSecInfo').doc(email);
     studentDocument = FirebaseFirestore.instance
         .collection('student')
         .doc(year)
         .collection(section)
-        .doc(usn.toLowerCase());
+        .doc(email.toLowerCase());
     try {
+      await infoDocument.set(yearSecInfo);
       return await studentDocument.set(studentData);
     } catch (error) {
       CustomErrorDialog.getErrorBox(context, error.message);

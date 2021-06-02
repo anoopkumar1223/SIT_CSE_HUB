@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:sit_cse_hub/components/custom_circle_avatar.dart';
 import 'package:sit_cse_hub/components/main_page_navbutton.dart';
 import 'package:sit_cse_hub/components/main_page_navbutton_tapped.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
@@ -71,19 +71,10 @@ class _MainScreenState extends State<MainScreen> {
                 top: 5,
                 right: 10,
               ),
-              child: CircleAvatar(
-                backgroundColor: Resource.color.blueGrey,
-                radius: 20,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    bottom: 12,
-                  ),
-                  child: Lottie.asset(
-                    Resource.image.profileGif,
-                    height: 40,
-                  ),
-                ),
-              ),
+              child: CustomCircleAvatar(
+                  radius: 25,
+                  imagePath: 'assets/images/profile_girl.json',
+                  onPressed: () {}),
             )
           ],
           title: Text(

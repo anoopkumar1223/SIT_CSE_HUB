@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:sit_cse_hub/resources/constant.dart';
 import 'package:sit_cse_hub/resources/route.dart';
 import 'package:sit_cse_hub/screens/login_screen.dart';
 import 'package:sit_cse_hub/screens/main_screen.dart';
 import 'package:sit_cse_hub/screens/notification_screen.dart';
 import 'package:sit_cse_hub/screens/timetable_screen.dart';
 import 'package:sit_cse_hub/screens/signup_screen.dart';
-import 'package:sit_cse_hub/screens/verify_email.dart';
 
 class MyRouter {
+  static UserType userType;
+
+  UserType getUserType(UserType user) {
+    userType = user;
+    return user;
+  }
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case MyRoute.loginScreen:
-        return MaterialPageRoute(builder: (_) => LoginScreen());
+        return MaterialPageRoute(
+            builder: (_) => LoginScreen(userType: userType));
       case MyRoute.signupScreen:
         return MaterialPageRoute(builder: (_) => SignupScreen());
-      case MyRoute.verifyScreen:
-        return MaterialPageRoute(builder: (_) => VerifyScreen());
+      /*case MyRoute.verifyScreen:
+        return MaterialPageRoute(builder: (_) => VerifyScreen());*/
       case MyRoute.mainScreen:
         return MaterialPageRoute(builder: (_) => MainScreen());
       case MyRoute.notificationScreen:

@@ -6,9 +6,10 @@ import 'package:sit_cse_hub/resources/navigation.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
 import 'package:sit_cse_hub/services/firebase_services/firestore_service.dart';
 import 'package:intl/intl.dart';
+import 'package:sit_cse_hub/services/oneSignalService.dart';
 
 class CustomNotificationAdd {
-  static Future<dynamic> getErrorBox({
+  static Future<dynamic> getNotificationAdd({
     BuildContext context,
     TextEditingController titleController,
     TextEditingController descController,
@@ -208,7 +209,7 @@ class CustomNotificationAdd {
                             ),
                           ),
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           if (!_formKey.currentState.validate()) {
                             return;
                           }
@@ -228,10 +229,15 @@ class CustomNotificationAdd {
                               year: year,
                               section: section,
                               attachmentUrl: '',
-                              faculty: 'H',
-                              dateTime: DateFormat('yyyy-MM-dd/kk:mm')
+                              faculty: 'A V Krishnamurty',
+                              dateTime: DateFormat('dd-MM-yyyy/kk:mm')
                                   .format(DateTime.now()),
                               context: context,
+                            );
+                            sendNotification(
+                              ['tokens'],
+                              title,
+                              'A v krishnamurthy',
                             );
                             MyNavigation().pop(context: context);
                             MyNavigation().pop(context: context);

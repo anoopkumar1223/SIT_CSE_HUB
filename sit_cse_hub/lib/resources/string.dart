@@ -12,7 +12,7 @@ class MyString {
   String get bangers => 'Bangers';
 
   //Tell us who you are screen
-  String get tellUsWhoYouAre => 'Tell us who you are?';
+  String get tellUsWhoYouAre => 'Tell us who you are';
 
   //Login Screen
 

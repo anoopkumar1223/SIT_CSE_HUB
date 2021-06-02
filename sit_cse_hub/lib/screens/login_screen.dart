@@ -4,11 +4,16 @@ import 'package:lottie/lottie.dart';
 import 'package:sit_cse_hub/components/custom_loader.dart';
 import 'package:sit_cse_hub/components/custom_text_button.dart';
 import 'package:sit_cse_hub/components/custom_textfield.dart';
+import 'package:sit_cse_hub/resources/constant.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
 import 'package:sit_cse_hub/resources/route.dart';
 import 'package:sit_cse_hub/services/firebase_services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
+  final UserType userType;
+
+  LoginScreen({@required this.userType});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -33,8 +38,6 @@ class _LoginScreenState extends State<LoginScreen> {
   };
   @override
   Widget build(BuildContext context) {
-    Map data = ModalRoute.of(context).settings.arguments;
-    print(data);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(node);
@@ -189,39 +192,41 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 15.0,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        Resource.string.noAccount,
-                        style: TextStyle(
-                          fontFamily: Resource.string.lato,
-                          fontSize: 16,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 5.0,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Resource.navigation.pushReplacement(
-                            context: context,
-                            screen: MyRoute.signupScreen,
-                          );
-                        },
-                        child: Text(
-                          Resource.string.signUp,
-                          style: TextStyle(
-                            color: Resource.color.primaryTheme,
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                            fontFamily: Resource.string.lato,
-                            fontSize: 16,
-                          ),
-                        ),
-                      )
-                    ],
-                  )
+                  (widget.userType == UserType.STUDENT)
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              Resource.string.noAccount,
+                              style: TextStyle(
+                                fontFamily: Resource.string.lato,
+                                fontSize: 16,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5.0,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Resource.navigation.pushReplacement(
+                                  context: context,
+                                  screen: MyRoute.signupScreen,
+                                );
+                              },
+                              child: Text(
+                                Resource.string.signUp,
+                                style: TextStyle(
+                                  color: Resource.color.primaryTheme,
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline,
+                                  fontFamily: Resource.string.lato,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                      : Container(),
                 ],
               ),
             ),

@@ -7,6 +7,7 @@ import 'package:sit_cse_hub/components/custom_notification_add.dart';
 import 'package:sit_cse_hub/components/notification_bean.dart';
 import 'package:sit_cse_hub/components/notification_component.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
+import 'package:sit_cse_hub/services/sharedPreferences/sharedPreferenceService.dart';
 
 class NotificationScreen extends StatefulWidget {
   @override
@@ -54,7 +55,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ),
                 CustomIconButton(
                   onPressed: () {
-                    CustomNotificationAdd.getErrorBox(
+                    CustomNotificationAdd.getNotificationAdd(
                       context: context,
                       titleController: titleController,
                       descController: descController,
@@ -82,9 +83,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('notifications')
-          .doc('I')
-          .collection('A')
-          .orderBy('dateTime')
+          .doc(MySharedPreference.getStudentYear())
+          .collection(MySharedPreference.getStudentSection())
+          .orderBy('dateTime', descending: true)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData != true) {

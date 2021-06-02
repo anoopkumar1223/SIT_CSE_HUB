@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sit_cse_hub/components/custom_error_dialog.dart';
 import 'package:sit_cse_hub/resources/navigation.dart';
 import 'package:sit_cse_hub/resources/route.dart';
+import 'package:sit_cse_hub/screens/details_screen.dart';
+import 'package:sit_cse_hub/screens/verify_email.dart';
+import 'package:sit_cse_hub/services/sharedPreferences/sharedPreferenceService.dart';
 
 class MyAuthService {
   static FirebaseAuth auth = FirebaseAuth.instance;
@@ -19,16 +23,41 @@ class MyAuthService {
       };
       MyNavigation().pop(context: context);
       if (auth.currentUser.emailVerified) {
-        MyNavigation().pushReplacement(
-          context: context,
-          screen: MyRoute.mainScreen,
-          arguments: userDetails,
-        );
+        DocumentSnapshot yearSectionDetail = await FirebaseFirestore.instance
+            .collection('studentYearSecInfo')
+            .doc(email)
+            .get()
+            .then((value) {
+          return value;
+        });
+        if (!yearSectionDetail.exists) {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => DetailsScreen(email: email)));
+        } else {
+          String year = yearSectionDetail.data()['year'];
+          String section = yearSectionDetail.data()['section'];
+          DocumentSnapshot data = await FirebaseFirestore.instance
+              .collection('student')
+              .doc(year)
+              .collection(section)
+              .doc(email)
+              .get();
+          String fName = data['firstName'];
+          MySharedPreference.addStudentData(
+            fName: fName,
+            email: email,
+            year: year,
+            section: section,
+          );
+          MyNavigation().pushReplacement(
+            context: context,
+            screen: MyRoute.mainScreen,
+            arguments: userDetails,
+          );
+        }
       } else
-        MyNavigation().pushReplacement(
-          context: context,
-          screen: MyRoute.verifyScreen,
-        );
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => VerifyScreen(email: email)));
     } catch (e) {
       MyNavigation().pop(context: context);
       switch (e.code) {
@@ -139,7 +168,8 @@ class MyAuthService {
   static void signUp(
       String email, String password, BuildContext context) async {
     try {
-      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+      /*UserCredential userCredential = */ await auth
+          .createUserWithEmailAndPassword(
         email: email.trim(),
         password: password.trim(),
       );
@@ -148,10 +178,8 @@ class MyAuthService {
         'user': user,
       };*/
       MyNavigation().pop(context: context);
-      MyNavigation().pushReplacement(
-        context: context,
-        screen: MyRoute.verifyScreen,
-      );
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => VerifyScreen(email: email)));
     } catch (e) {
       MyNavigation().pop(context: context);
       print(e.code);

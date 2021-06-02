@@ -7,6 +7,7 @@ import 'package:sit_cse_hub/resources/constant.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
 import 'package:sit_cse_hub/components/user_selection_component.dart';
 import 'package:sit_cse_hub/resources/route.dart';
+import 'package:sit_cse_hub/resources/router.dart';
 
 class UserSelectionScreen extends StatefulWidget {
   @override
@@ -49,6 +50,7 @@ class _UserSelectionScreenState extends State<UserSelectionScreen> {
                   setState(() {
                     isProfessor = true;
                     isStudent = false;
+                    userType = UserType.PROFESSOR;
                   });
                 },
               ),
@@ -60,6 +62,7 @@ class _UserSelectionScreenState extends State<UserSelectionScreen> {
                   setState(() {
                     isStudent = true;
                     isProfessor = false;
+                    userType = UserType.STUDENT;
                   });
                 },
               ),
@@ -82,6 +85,7 @@ class _UserSelectionScreenState extends State<UserSelectionScreen> {
               userType = UserType.STUDENT;
             else
               userType = UserType.PROFESSOR;
+            MyRouter().getUserType(userType);
             Resource.navigation.push(
               context: context,
               screen: MyRoute.loginScreen,

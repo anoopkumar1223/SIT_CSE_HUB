@@ -4,9 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
-import 'package:sit_cse_hub/screens/main_screen.dart';
+import 'package:sit_cse_hub/screens/details_screen.dart';
 
 class VerifyScreen extends StatefulWidget {
+  final String email;
+
+  VerifyScreen({
+    @required this.email,
+  });
+
   @override
   _VerifyScreenState createState() => _VerifyScreenState();
 }
@@ -22,7 +28,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
     user.sendEmailVerification();
     //write try catch
     timer = Timer.periodic(Duration(seconds: 5), (timer) {
-      checkEmailVerified();
+      checkEmailVerified(widget.email);
     });
     super.initState();
   }
@@ -62,13 +68,15 @@ class _VerifyScreenState extends State<VerifyScreen> {
     );
   }
 
-  Future<void> checkEmailVerified() async {
+  Future<void> checkEmailVerified(String email) async {
     user = auth.currentUser;
     await user.reload();
     if (user.emailVerified) {
       timer.cancel();
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => MainScreen()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => DetailsScreen(
+                email: email,
+              )));
     }
   }
 }

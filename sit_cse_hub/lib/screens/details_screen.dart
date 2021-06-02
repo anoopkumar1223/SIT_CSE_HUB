@@ -9,9 +9,17 @@ import 'package:sit_cse_hub/components/custom_text_button.dart';
 import 'package:sit_cse_hub/resources/navigation.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
 import 'package:sit_cse_hub/components/custom_textfield.dart';
+import 'package:sit_cse_hub/resources/route.dart';
 import 'package:sit_cse_hub/services/firebase_services/firestore_service.dart';
+import 'package:sit_cse_hub/services/sharedPreferences/sharedPreferenceService.dart';
 
 class DetailsScreen extends StatefulWidget {
+  final String email;
+
+  DetailsScreen({
+    @required this.email,
+  });
+
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
 }
@@ -285,11 +293,22 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               lName: lastName,
                               usn: usn,
                               phone: phone,
+                              email: widget.email,
                               year: year,
                               section: section,
                               context: context,
                             );
+                            MySharedPreference.addStudentData(
+                              fName: firstName,
+                              email: widget.email,
+                              year: year,
+                              section: section,
+                            );
                             MyNavigation().pop(context: context);
+                            MyNavigation().push(
+                              context: context,
+                              screen: MyRoute.mainScreen,
+                            );
                           },
                         ),
                       ],

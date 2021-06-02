@@ -18,7 +18,7 @@ class NotificationComponent extends StatelessWidget {
     String time = dateTime[1];
     return GestureDetector(
       onTap: () {
-        CustomNotificationDetail.getErrorBox(
+        CustomNotificationDetail.getNotificationComponent(
           context,
           notificationBean.title,
           notificationBean.desc,
@@ -43,7 +43,7 @@ class NotificationComponent extends StatelessWidget {
           ),
           child: Row(
             children: [
-              CircleAvatar(
+              /*CircleAvatar(
                 backgroundColor: Resource.color.whiteColor,
                 radius: 40,
                 child: Image.asset(
@@ -52,7 +52,7 @@ class NotificationComponent extends StatelessWidget {
               ),
               SizedBox(
                 width: 20,
-              ),
+              ),*/
               Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

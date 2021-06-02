@@ -6,6 +6,7 @@ import 'package:sit_cse_hub/components/custom_text_button.dart';
 import 'package:sit_cse_hub/components/custom_textfield.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
 import 'package:sit_cse_hub/resources/route.dart';
+import 'package:sit_cse_hub/resources/router.dart';
 import 'package:sit_cse_hub/services/firebase_services/auth_service.dart';
 
 class SignupScreen extends StatefulWidget {

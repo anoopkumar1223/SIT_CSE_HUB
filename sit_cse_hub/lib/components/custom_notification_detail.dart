@@ -3,7 +3,7 @@ import 'package:sit_cse_hub/resources/navigation.dart';
 import 'package:sit_cse_hub/resources/resource.dart';
 
 class CustomNotificationDetail {
-  static Future<dynamic> getErrorBox(
+  static Future<dynamic> getNotificationComponent(
       var context, String title, String desc, String attachmentUrl) {
     return showDialog(
         context: context,
